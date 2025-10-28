@@ -1,14 +1,248 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
-  </head>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joyeux Anniversaire!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/react-app/main.tsx"></script>
-  </body>
+        body {
+            overflow: hidden;
+            font-family: 'Georgia', serif;
+            display: flex;
+        }
+
+        #video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            z-index: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        #big-message {
+            position: fixed;
+            top: 50%;
+            left: 75%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 4rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.8),
+                         0 0 40px rgba(255, 215, 0, 0.6),
+                         0 0 60px rgba(255, 215, 0, 0.4);
+            z-index: 100;
+            animation: popIn 3s ease-out forwards;
+            text-align: center;
+            padding: 0 40px;
+            max-width: 45%;
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            20% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 1;
+            }
+            40% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            80% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        #bottom-message {
+            position: fixed;
+            bottom: auto;
+            top: 50%;
+            left: 75%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8),
+                         0 0 30px rgba(255, 215, 0, 0.6);
+            z-index: 10;
+            text-align: center;
+            padding: 0 40px;
+            max-width: 45%;
+            opacity: 0;
+            animation: fadeInBottom 2s ease-out 3s forwards;
+        }
+
+        @keyframes fadeInBottom {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) translateY(0);
+            }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            z-index: 50;
+            pointer-events: none;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #video-background {
+                width: 100%;
+            }
+            
+            .overlay {
+                left: 0;
+                width: 100%;
+                background: linear-gradient(180deg, rgba(102, 126, 234, 0) 0%, rgba(102, 126, 234, 0.7) 70%, rgba(118, 75, 162, 0.95) 100%);
+            }
+            
+            #big-message {
+                left: 50%;
+                top: auto;
+                bottom: 180px;
+                transform: translate(-50%, 0) scale(0);
+                max-width: 90%;
+                font-size: 2.5rem;
+            }
+            
+            #bottom-message {
+                left: 50%;
+                top: auto;
+                bottom: 50px;
+                transform: translate(-50%, 0);
+                max-width: 90%;
+                font-size: 1.5rem;
+            }
+            
+            @keyframes popIn {
+                0% {
+                    transform: translate(-50%, 0) scale(0);
+                    opacity: 0;
+                }
+                20% {
+                    transform: translate(-50%, 0) scale(1.2);
+                    opacity: 1;
+                }
+                40% {
+                    transform: translate(-50%, 0) scale(1);
+                }
+                80% {
+                    transform: translate(-50%, 0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(-50%, 0) scale(0.8);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes fadeInBottom {
+                from {
+                    opacity: 0;
+                    transform: translate(-50%, 20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translate(-50%, 0);
+                }
+            }
+        }
+    </style>
+</head>
+<body>
+    <video id="video-background" autoplay muted loop playsinline>
+        <source src="horse.mp4" type="video/mp4">
+    </video>
+    
+    <audio id="background-music" autoplay controls loop>
+        <source src="enae.mp3" type="audio/mpeg">
+    </audio>
+    
+    <div class="overlay"></div>
+    
+    <div id="big-message">
+        🎉 BON ANNIVERSAIRE CHARLINE ! 🎉
+    </div>
+    
+    <div id="bottom-message">
+        <p>Et si on profitait de votre venue au Canada pour faire une balade à cheval en pleine nature ? 🏇</p>
+		<p>L'occasion de vivre comme les premières nations pendant un moment magique dans les paysages à couper le souffle des rocheuses 🤩🏔</p>
+    </div>
+
+    <script>
+        function createConfetti() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500', '#ff69b4'];
+            const confettiCount = 150;
+
+            for (let i = 0; i < confettiCount; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animation = `confettiFall ${2 + Math.random() * 3}s linear forwards`;
+                    
+                    document.body.appendChild(confetti);
+
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }, i * 20);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createConfetti();
+            
+            const music = document.getElementById('background-music');
+            const video = document.getElementById('video-background');
+            
+            document.body.addEventListener('click', () => {
+                music.play().catch(e => console.log('Musique:', e));
+                video.play().catch(e => console.log('Vidéo:', e));
+            }, { once: true });
+        });
+    </script>
+</body>
 </html>
